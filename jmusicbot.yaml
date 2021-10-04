@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmusicbot
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      alias: jmusicbot
+  template:
+    metadata:
+      labels:
+        alias: jmusicbot
+    spec:
+      containers:
+      - name: jmusicbot
+        image: docker.io/vnev/jmusicbot:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jmusicbot-service
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    alias: jmusicbot
+  ports:
+  - port: 80
+    targetPort: 80
